@@ -17,16 +17,6 @@ import java.util.Optional;
 public class UserController {
 
     UserService userService;
-
-    // Retrieve a single user by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
-        Optional<User> user = Optional.ofNullable(userService.findUserById(id));
-        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-
     // Retrieve all users
     @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUsers() {
@@ -34,15 +24,22 @@ public class UserController {
     }
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
+    public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
         Optional<User> user = userService.findUserByEmail(email);
-        if(user==null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (user.isEmpty()) {
+            return new ResponseEntity<>("User not found with email: " + email, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(user.get(),HttpStatus.OK);
+        return new ResponseEntity<>(user.get(), HttpStatus.OK);
     }
-
-
+    // Retrieve a single user by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable Integer id) {
+        Optional<User> user = Optional.ofNullable(userService.findUserById(id));
+        if (user.isEmpty()) {
+            return new ResponseEntity<>("User not found with email: " + id, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user.get(), HttpStatus.OK);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable Integer id) {
@@ -55,7 +52,7 @@ public class UserController {
     }
 
     //update user with new details
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User user) {
         // Optional: Check if the user exists
         Optional<User> existingUser = Optional.ofNullable(userService.findUserById(id));
@@ -64,13 +61,13 @@ public class UserController {
         }
         // Assuming you have a method to update the user in your service
         user.setUserId(id); // Make sure the user has the correct ID
-        User updatedUser = userService.saveUser(user); // This method might need to handle update logic specifically
+        User updatedUser = userService.registerUser(user); // This method might need to handle update logic specifically
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
     @PutMapping
     public ResponseEntity<User> saveUser(@RequestBody User user) {
-        User savedUser = userService.saveUser(user);
+        User savedUser = userService.registerUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
@@ -82,6 +79,12 @@ public class UserController {
         }
         userService.deleteUser(userOptional.get().getUserId());
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
+        User savedUser = userService.registerUser(user);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
 

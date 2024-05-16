@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    User saveUser(User user);
+    User registerUser(User user);
+    User updateUser(Integer id, User user);
+
     User findUserById(Integer id);
     void deleteUser(Integer userId);
     List<User> findAllUsers();

@@ -20,16 +20,16 @@ public class Dorm {
     private Integer id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "userId", nullable = false ,referencedColumnName = "id")
+    @JoinColumn(name = "userId", nullable = false, referencedColumnName = "id")
     private User user;
 
     @Column(name = "contact_number", length = 15)
     private String contactNumber;
 
-    @Column(name = "city")
+    @Column(name = "cities")
     private int cities;
 
-    @Column(name = "title", length = 45 )
+    @Column(name = "title", length = 45)
     private String title;
 
     @Column(name = "description", length = 600)
@@ -50,11 +50,7 @@ public class Dorm {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    @JoinTable(
-            name = "dorm_amenities",
-            joinColumns = @JoinColumn(name = "dorm_id"),
-            inverseJoinColumns = @JoinColumn(name = "amenity_id")
-    )
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "dorm_amenities", joinColumns = @JoinColumn(name = "dorm_id"), inverseJoinColumns = @JoinColumn(name = "amenity_id"))
     private List<Amenity> amenityList;
 }
