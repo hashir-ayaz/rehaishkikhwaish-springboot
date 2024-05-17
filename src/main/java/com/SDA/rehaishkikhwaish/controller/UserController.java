@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+//import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/user")
 public class UserController {
 
@@ -81,10 +83,23 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+//    @PostMapping("/signup")
+//    public ResponseEntity<User> registerUser(@RequestBody User user) {
+//        User savedUser = userService.registerUser(user);
+//        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+//    }
+
     @PostMapping("/signup")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User savedUser = userService.registerUser(user);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        try {
+            User savedUser = userService.registerUser(user);
+            return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        } catch (Exception e) {
+            // Log the exception for debugging
+            System.err.println("Error during user registration: " + e.getMessage());
+            // Return a 500 response with a detailed error message
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 

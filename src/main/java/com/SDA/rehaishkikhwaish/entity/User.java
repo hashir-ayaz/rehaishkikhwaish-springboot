@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Setter
 @Getter
 @Entity
@@ -15,7 +16,7 @@ public class User {
     @Column(name="id")
     private Integer userId;
     @Column(name="user_name")
-    private String userName;
+    private String username;
     @Column(name="email")
     private String email;
     @Column(name="password")
