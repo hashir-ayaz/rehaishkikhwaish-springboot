@@ -28,8 +28,9 @@ public class User {
     @Column(name="date_of_birth")
     private String dateOfBirth;
 
-    public User(Integer userId, String email, String password, String createdAt, String updated_at, String dateOfBirth) {
+    public User(String username, Integer userId, String email, String password, String createdAt, String updated_at, String dateOfBirth) {
         this.userId = userId;
+        this.username = username;
         this.email = email;
         this.password = password;
         this.createdAt = createdAt;
