@@ -26,8 +26,9 @@ public class Dorm {
     @Column(name = "contact_number", length = 15)
     private String contactNumber;
 
-    @Column(name = "cities")
-    private int cities;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "city", nullable = false, referencedColumnName = "id")
+    private City city;
 
     @Column(name = "title", length = 45)
     private String title;

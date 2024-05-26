@@ -1,5 +1,6 @@
 package com.SDA.rehaishkikhwaish.service;
 
+import com.SDA.rehaishkikhwaish.entity.City;
 import com.SDA.rehaishkikhwaish.entity.Dorm;
 import com.SDA.rehaishkikhwaish.entity.User;
 import com.SDA.rehaishkikhwaish.repository.DormRepository;
@@ -18,6 +19,8 @@ public class DormServiceImpl implements DormService
     @Override
     public Dorm saveDorm(Dorm dorm, Integer userId) {
         User tempUser = new User();
+        City tempCity= new City();
+        if(dorm.getCity()==null) {dorm.setCity(tempCity);}
         tempUser = userRepository.findById(userId).get();
         dorm.setUser(tempUser);
         return dormRepository.save(dorm);
@@ -45,7 +48,7 @@ public class DormServiceImpl implements DormService
 
         existingDorm.setTitle(dormDetails.getTitle());
         existingDorm.setContactNumber(dormDetails.getContactNumber());
-        existingDorm.setCities(dormDetails.getCities());
+        existingDorm.setCity(dormDetails.getCity());
         existingDorm.setDescription(dormDetails.getDescription());
         existingDorm.setPricePerMonth(dormDetails.getPricePerMonth());
         existingDorm.setAmenities(dormDetails.getAmenities());
