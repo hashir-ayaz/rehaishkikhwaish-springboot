@@ -51,7 +51,9 @@ public class DormServiceImpl implements DormService
         existingDorm.setCity(dormDetails.getCity());
         existingDorm.setDescription(dormDetails.getDescription());
         existingDorm.setPricePerMonth(dormDetails.getPricePerMonth());
-        existingDorm.setAmenities(dormDetails.getAmenities());
+        existingDorm.setAmenityList(dormDetails.getAmenityList());
+        existingDorm.setAddress(dormDetails.getAddress());
+
         // Set other properties from dormDetails as needed
 
         return dormRepository.save(existingDorm);

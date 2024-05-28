@@ -3,6 +3,7 @@ package com.SDA.rehaishkikhwaish.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,13 +15,13 @@ import java.util.List;
 
 @Entity
 @Table(name = "dorms")
-public class Dorm {
+public class Dorm implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Integer id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "userId", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(name = "contact_number", length = 15)
@@ -36,11 +37,8 @@ public class Dorm {
     @Column(name = "description", length = 600)
     private String description;
 
-    @Column(name = "price_per_month", precision = 10, scale = 0)
+    @Column(name = "price_per_month", precision = 10, scale = 2)
     private BigDecimal pricePerMonth;
-
-    @Column(name = "amenities")
-    private int amenities;
 
     @Column(name = "address", length = 100)
     private String address;
@@ -52,6 +50,10 @@ public class Dorm {
     private LocalDateTime updatedAt;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "dorm_amenities", joinColumns = @JoinColumn(name = "dorm_id"), inverseJoinColumns = @JoinColumn(name = "amenity_id"))
+    @JoinTable(
+            name = "dorm_amenities",
+            joinColumns = @JoinColumn(name = "dorm_id"),
+            inverseJoinColumns = @JoinColumn(name = "amenity_id")
+    )
     private List<Amenity> amenityList;
 }
