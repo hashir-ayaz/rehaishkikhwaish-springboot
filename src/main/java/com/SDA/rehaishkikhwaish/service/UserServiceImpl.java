@@ -51,4 +51,15 @@ public class UserServiceImpl implements UserService{
         return userRepository.findByEmail(email);
     }
 
+    @Override
+    public User loginUser(User user) {
+        Optional<User> userOptional = userRepository.findByEmail(user.getEmail());
+        if(userOptional.isPresent()){
+            if(passwordEncoder.matches(user.getPassword(), userOptional.get().getPassword())){
+                return userOptional.get();
+            }
+        }
+        return null;
+    }
+
 }

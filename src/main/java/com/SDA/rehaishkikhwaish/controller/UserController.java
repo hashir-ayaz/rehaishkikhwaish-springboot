@@ -102,6 +102,22 @@ public class UserController {
         }
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<User> loginUser(@RequestBody User user) {
+        try{
+            User loggedInUser = userService.loginUser(user);
+            if (loggedInUser == null) {
+                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            }
+            return new ResponseEntity<>(loggedInUser, HttpStatus.OK);
+        } catch (Exception e) {
+            // Log the exception for debugging
+            System.err.println("Error during user login: " + e.getMessage());
+            // Return a 500 response with a detailed error message
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 
 
