@@ -58,11 +58,5 @@ public class Dorm implements Serializable {
     )
     private List<Amenity> amenityList = new ArrayList<>();
 
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name = "dorm_images",
-//            joinColumns = @JoinColumn(name = "dorm_id"),
-//            inverseJoinColumns = @JoinColumn(name = "image_id")
-//    )
-//    private List<MultipartFile> images;
+
 }
