@@ -6,6 +6,7 @@ import lombok.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -27,8 +28,8 @@ public class Dorm implements Serializable {
     @Column(name = "contact_number", length = 15)
     private String contactNumber;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "city", nullable = false, referencedColumnName = "id")
+    @ManyToOne(optional = true , cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "city_id", nullable = false, referencedColumnName = "id")
     private City city;
 
     @Column(name = "title", length = 45)
@@ -55,5 +56,13 @@ public class Dorm implements Serializable {
             joinColumns = @JoinColumn(name = "dorm_id"),
             inverseJoinColumns = @JoinColumn(name = "amenity_id")
     )
-    private List<Amenity> amenityList;
+    private List<Amenity> amenityList = new ArrayList<>();
+
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name = "dorm_images",
+//            joinColumns = @JoinColumn(name = "dorm_id"),
+//            inverseJoinColumns = @JoinColumn(name = "image_id")
+//    )
+//    private List<MultipartFile> images;
 }
